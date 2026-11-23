@@ -1,0 +1,463 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat XYZ | TikTok</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #080808;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* MENU LATERAL */
+
+        .sidebar {
+            width: 250px;
+            background: #111;
+            border-right: 1px solid #292929;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-size: 32px;
+            margin-bottom: 45px;
+        }
+
+        .logo span {
+            color: #fe2c55;
+            text-shadow: 2px 2px #25f4ee;
+        }
+
+        .sidebar h3 {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            color: #ccc;
+        }
+
+        .menu-item.active {
+            background: #252525;
+            color: #25f4ee;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+
+        .avatar {
+            background: #fe2c55;
+            padding: 12px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .profile small {
+            display: block;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* ÁREA DO CHAT */
+
+        .chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 25px 40px;
+            min-width: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #292929;
+            padding-bottom: 20px;
+        }
+
+        header h2 {
+            font-size: 23px;
+        }
+
+        header p {
+            color: #25f4ee;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .online {
+            color: #25f4ee;
+            font-size: 13px;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 30px 10px;
+        }
+
+        .welcome h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* MENSAGENS */
+
+        #mensagens {
+            list-style: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #111;
+            border-radius: 15px;
+            min-height: 200px;
+        }
+
+        #mensagens li {
+            background: #252525;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 3px solid #25f4ee;
+            overflow-wrap: anywhere;
+            width: fit-content;
+            max-width: 75%;
+        }
+
+        /* SUAS MENSAGENS */
+
+        #mensagens li.minha-mensagem {
+            margin-left: auto;
+            background: #49202e;
+            border-left: none;
+            border-right: 3px solid #fe2c55;
+            text-align: right;
+        }
+
+        /* MENSAGENS DE OUTRAS PESSOAS */
+
+        #mensagens li.outra-mensagem {
+            margin-right: auto;
+            text-align: left;
+        }
+
+        #mensagens li strong {
+            color: #fe2c55;
+            font-size: 14px;
+        }
+
+        #mensagens li p {
+            margin-top: 8px;
+            color: #eee;
+        }
+
+        /* FORMULÁRIO */
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        input {
+            background: #222;
+            border: 1px solid #444;
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            outline: none;
+            min-width: 0;
+        }
+
+        #nome {
+            width: 180px;
+        }
+
+        #mensagem {
+            flex: 1;
+        }
+
+        input:focus {
+            border-color: #25f4ee;
+        }
+
+        button {
+            background: #fe2c55;
+            border: none;
+            color: white;
+            padding: 15px 22px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #e51e48;
+        }
+
+        footer {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            padding-top: 20px;
+        }
+
+        /* CELULAR */
+
+        @media (max-width: 700px) {
+            .sidebar {
+                display: none;
+            }
+
+            .chat {
+                padding: 15px;
+            }
+
+            form {
+                flex-wrap: wrap;
+            }
+
+            #nome,
+            #mensagem {
+                width: 100%;
+                flex: 1 1 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            #mensagens li {
+                max-width: 90%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <aside class="sidebar">
+
+            <h1 class="logo">Tik<span>Tok</span></h1>
+
+            <h3>CHAT INTERNO</h3>
+
+            <div class="menu-item active">💬 Chat Geral</div>
+
+            <div class="profile">
+
+                <div class="avatar">XYZ</div>
+
+                <div>
+                    <strong>Empresa XYZ</strong>
+                    <small>Equipe interna</small>
+                </div>
+
+            </div>
+
+        </aside>
+
+        <main class="chat">
+
+            <header>
+
+                <div>
+                    <h2>Chat da equipe</h2>
+                    <p>● Conversa em tempo real</p>
+                </div>
+
+                <span class="online">● Online</span>
+
+            </header>
+
+            <div class="welcome">
+
+                <h2>Bem-vindo ao Chat XYZ!</h2>
+
+                <p>Conecte-se com sua equipe e compartilhe ideias.</p>
+
+            </div>
+
+            <ul id="mensagens"></ul>
+
+            <form id="form">
+
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Seu nome"
+                    autocomplete="off"
+                    maxlength="30"
+                >
+
+                <input
+                    type="text"
+                    id="mensagem"
+                    placeholder="Digite sua mensagem..."
+                    autocomplete="off"
+                    maxlength="500"
+                >
+
+                <button type="submit">Enviar ➤</button>
+
+            </form>
+
+            <footer>
+                Empresa XYZ © 2026 | Comunicação e colaboração
+            </footer>
+
+        </main>
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+
+        const socket = io();
+
+        const nomeInput = document.getElementById('nome');
+        const mensagemInput = document.getElementById('mensagem');
+        const mensagens = document.getElementById('mensagens');
+        const form = document.getElementById('form');
+
+        // Mostrar mensagens na tela
+
+        function mostrarMensagem(dados) {
+
+            const lista = document.createElement('li');
+
+            // Verificar se a mensagem é sua
+
+            if (dados.id === socket.id) {
+                lista.classList.add('minha-mensagem');
+            } else {
+                lista.classList.add('outra-mensagem');
+            }
+
+            const usuario = document.createElement('strong');
+
+            usuario.textContent = dados.nome;
+
+            const texto = document.createElement('p');
+
+            texto.textContent = dados.mensagem;
+
+            lista.appendChild(usuario);
+            lista.appendChild(texto);
+
+            mensagens.appendChild(lista);
+
+            mensagens.scrollTop = mensagens.scrollHeight;
+
+        }
+
+        // Enviar mensagem
+
+        form.addEventListener('submit', event => {
+
+            event.preventDefault();
+
+            const nome = nomeInput.value.trim();
+            const mensagem = mensagemInput.value.trim();
+
+            if (!nome || !mensagem) {
+
+                alert('Preencha seu nome e sua mensagem!');
+
+                return;
+
+            }
+
+            socket.emit('chat message', {
+                nome,
+                mensagem
+            });
+
+            nomeInput.disabled = true;
+
+            mensagemInput.value = '';
+
+            mensagemInput.focus();
+
+        });
+
+        // Receber mensagens novas
+
+        socket.on('chat message', dados => {
+
+            mostrarMensagem(dados);
+
+        });
+
+        // Receber histórico de mensagens
+
+        socket.on('chat history', historico => {
+
+            mensagens.innerHTML = '';
+
+            historico.forEach(dados => {
+
+                mostrarMensagem(dados);
+
+            });
+
+        });
+
+        // Conexão
+
+        socket.on('connect', () => {
+
+            console.log('Conectado ao servidor!');
+
+        });
+
+        // Desconexão
+
+        socket.on('disconnect', () => {
+
+            console.log('Desconectado do servidor!');
+
+        });
+
+    </script>
+
+</body>
+</html>
